@@ -37,6 +37,21 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
+static int cmd_si(char *args) {
+	bool success;
+	int i = expr(args, &success);
+	if(success){
+	        if(i==0)
+		        cpu_exec(1);
+	        else{
+		        for(;i>0;--i){
+			        cpu_exec(1);
+		        }
+	        }
+	}
+	return 0;
+}
+
 static int cmd_p(char *args) {
     bool success;
     int val = expr(args, &success);
@@ -60,7 +75,8 @@ static struct {
 	{ "q", "Exit TEMU", cmd_q },
 
 	/* TODO: Add more commands */
-    { "p", "Print value of the expression", cmd_p }
+        { "si", "Single Step", cmd_si },
+    	{ "p", "Print value of the expression", cmd_p }
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
